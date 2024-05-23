@@ -1,0 +1,202 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<style>
+    .like-button {
+        color: #d92b4c;
+        text-decoration: none;
+    }
+
+    .like-button:hover {
+        color: white;
+    }
+</style>
+            <section class="youplay-banner banner-top youplay-banner-parallax xsmall">
+                <div class="image" data-speed="0.4">
+                    <img src="{{ asset('images/dark/banner-blog-bg.jpg') }}" alt="" class="jarallax-img">
+                </div>
+                <div class="info">
+                    <div>
+                        <div class="container">
+                            <h1 class="h1">{{ blog.titre }}</h1> 
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /Banner -->
+            <div class="container youplay-news youplay-post">
+                <div class="col-md-9">
+                    <!-- Post Info -->
+                    <article class="news-one">
+                        <!-- Post Text -->
+                        <div class="description">
+                            <a href=" {{ blog.image }}" class="angled-img pull-left video-popup">
+                                    <div class="img">
+                                        <img src="{{ asset(blog.image) }}" alt="">
+                                    </div>
+                                    <i class="fa fa-search-plus icon"></i>
+                            </a>
+                            <p> {{ blog.contenu }} </p>
+                            </div>
+                        <!-- /Post Text -->
+                        
+                        <!-- Post Tags -->
+                        <div class="tags">
+                            <div style="margin-top: 10px ;border-bottom:2px solid rgba(255,255,255,.1); margin-bottom: 10px;"></div>
+                            {% if blog.tags is not empty %}
+                                <i class="fa fa-tags"></i> 
+                                {% for tag in blog.tags %}
+                                    <a href="#">{{ tag.nom }}</a>{% if not loop.last %}, {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        <!-- /Post Tags -->
+                        <!-- Post Meta -->
+                        <div class="meta">
+                            <div class="item">
+                                <i class="fa fa-user meta-icon"></i> Author <a >{{ blog.author.nom }} {{ blog.author.prenom }}</a>
+                            </div>
+                            <div class="item">
+                                <i class="fa fa-calendar meta-icon"></i> Published <a >{{ blog.createAt|date('F j, Y') }}</a>
+                            </div>
+                            <div class="item">
+                                <i class="fa fa-bookmark meta-icon"></i> Categories <a >{{ blog.categorie.nom }}</a>
+                            </div>
+                            <div class="item">
+                                <i class="fa fa-eye meta-icon"></i> Views {{ blog.views }} </div>
+                            <div class="item">
+                                {% if user and blog.usersFavorite.contains(user) %}
+                                    <a href="{{ path('app_single_blog_unlike', {'id': blog.id}) }}" class="like-button"><i class="fa fa-heart"></i> {{favorite}}</a>
+                                {% else %}
+                                    <a href="{{ path('app_single_blog_like', {'id': blog.id}) }}"><i class="fa fa-heart"></i> {{favorite}}</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <!-- /Post Meta -->
+                        <!-- Post Share -->
+                        <div class="btn-group social-list social-likes" data-counters="no">
+                            <span class="btn btn-default facebook" title="Share link on Facebook"></span>
+                            <span class="btn btn-default twitter" title="Share link on Twitter"></span>
+                            <span class="btn btn-default plusone" title="Share link on Google+"></span>
+                            <span class="btn btn-default pinterest" title="Share image on Pinterest" data-media=""></span>
+                            <span class="btn btn-default vkontakte" title="Share link on VK"></span>
+                        </div>
+                        <!-- /Post Share -->
+                    </article>
+                    <!-- /Post Info -->
+                    <!-- Post Comments -->
+                    <div class="comments-block">
+                        <h2>Comments <small>({{ count }})</small></h2>
+                        <!-- Comments List -->
+                        
+                        <ul class="comments-list">
+                            <!-- Kristen Bradley comment -->
+                            {% for commentaire in blog.commentaires %}
+                            <li>
+                                {% if commentaire.parent == null %}
+                                <article>
+                                    <div class="comment-avatar pull-left">
+                                        <img src="{{ asset('images/dark/avatar-user-1.png') }}" alt="">
+                                    </div>
+                                    <div class="comment-cont clearfix">
+                                        <a class="comment-author h4" > {{ commentaire.author.nom }} {{ commentaire.author.prenom }} </a>
+                                        <div class="date">
+                                            <i class="fa fa-calendar"></i> {{ commentaire.createAt|date('F j, Y') }} 
+                                            {% if app.user %}
+                                                {% if app.user.id == commentaire.author.id %}
+                                                    <a class="pull-right"> 
+                                                            <form method="post" action="{{ path('app_single_blog_delete', {'blogid': blog.id, 'id': commentaire.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                                                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ commentaire.id) }}">
+                                                                <button class="btn btn-xs pull-right"><i class="fa fa-trash"></i>  Delete</button>
+                                                            </form>
+                                                            <a href="{{ path('app_single_blog_edit', {'id': blog.id, 'edit_comment_id': commentaire.id}) }}#comment_form" class="btn btn-xs pull-right"><i class="fa fa-edit"></i> Edit </a>  
+                                                        </a>
+                                                {% else %}
+                                                    <a href="{{ path('app_single_blog', {'id': blog.id, 'comment_id': commentaire.id}) }}#comment_form" class="pull-right"><i class="fa fa-reply"></i> Reply</a>                                            
+                                                {% endif %} 
+                                            {% endif %}
+                                        </div>
+                                        <div class="comment-text"> {{ commentaire.contenu }} </div>
+                                    </div>
+                                </article>
+                                {% endif %}
+                                {% for reponse in commentaire.reponses %}
+                                    <ul class="child-comment">
+                                    <!-- Mike Pearson comment -->
+                                    <li>
+                                        <article>
+                                            <div class="comment-avatar pull-left">
+                                                <img src="{{ asset('images/dark/avatar.png') }}" alt="">
+                                            </div>
+                                            <div class="comment-cont clearfix">
+                                                <a class="comment-author h4" href="#"> {{ reponse.author.nom }} {{ reponse.author.prenom }} </a>
+                                                <div class="date">
+                                                    <i class="fa fa-calendar"></i> {{ reponse.createAt|date('F j, Y') }}
+                                                    {% if app.user %}
+                                                        {% if app.user.id == reponse.author.id %}
+                                                        <a class="pull-right"> 
+                                                            <form method="post" action="{{ path('app_single_blog_delete', {'blogid': blog.id, 'id': reponse.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                                                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ reponse.id) }}">
+                                                                <button class="btn btn-xs pull-right"><i class="fa fa-trash"></i>Delete</button>
+                                                            </form>
+                                                            <a href="{{ path('app_single_blog_edit', {'id': blog.id, 'edit_comment_id': reponse.id}) }}#comment_form" class="btn btn-xs pull-right" ><i class="fa fa-edit"></i> Edit </a>  
+                                                        </a>
+                                                        {% endif %}
+                                                    {% endif %}
+                                                </div>
+                                                <div class="comment-text"> {{ reponse.contenu }} </div>
+                                            </div>
+                                        </article>
+                                    </li>
+                                    <!-- /Mike Pearson comment -->
+                                </ul>
+                                {% endfor %}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        
+                        <!-- /Comments List -->
+                        <h2>Leave a Reply</h2>
+                        {% if app.request.attributes.get('_route') == 'app_single_blog' and commentaireReply %}
+                            <h6>Repondre a {{ commentaireReply.author.nom }} {{ commentaireReply.author.prenom }} </h6>
+                        {% endif %}
+                            {{ include('blog/commentaire_form.html.twig') }}
+
+                        <script>
+                        document.getElementById('edit-button').addEventListener('click', function() {
+                            document.getElementById('comment-form').style.display = 'none';
+                            document.getElementById('edit-comment-form').style.display = 'block';
+                        });
+                        </script>
+                    </div>
+                    <!-- /Post Comments -->
+                </div>
+                <!-- Right Side -->
+                <div class="col-md-3">
+                    <!-- Side Popular News -->
+                    <div class="side-block">
+                        <h4 class="block-title">Popular News</h4>
+                        <div class="block-content p-0">
+                            {% for blog in popularBlogs %}
+                                <!-- Single News Block -->
+                                <div class="row youplay-side-news">
+                                    <div class="col-xs-3 col-md-4">
+                                        <a href="{{ asset(blog.image) }}" class="angled-img">
+                                            <div class="img">
+                                                <img src="{{ asset(blog.image) }}" alt="">
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="col-xs-9 col-md-8">
+                                        <h4 class="ellipsis"><a href="{{ path('app_single_blog', {'id': blog.id}) }}" title="Whats New in Middle-earth">{{ blog.titre }}</a></h4>
+                                        <span class="date"><i class="fa fa-calendar"></i> {{ blog.createAt|date('F j, Y') }} </span>
+                                    </div>
+                                </div>
+                                <!-- /Single News Block -->
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <!-- /Side Popular News -->
+                </div>
+                <!-- /Right Side -->
+            </div>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Categorie index{% endblock %}
+
+{% block body %}
+<section class="youplay-banner banner-top youplay-banner-parallax small">
+    <div class="image" data-speed="0.4">
+        <img src="{{ asset('images/dark/banner-blog-bg.jpg') }}" alt="" class="jarallax-img">
+    </div>
+    <div class="info">
+        <div>
+            <div class="container">
+                <h1 class="h1">List Categories</h1>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="container youplay-content">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for categorie in categories %}
+            <tr>
+                <td>{{ categorie.id }}</td>
+                <td>{{ categorie.nom }}</td>
+                <td>{{ categorie.description }}</td>
+                <td>
+                    <a href="{{ path('app_categorie_show', {'id': categorie.id}) }}" class="btn btn-xs">show</a>
+                    <a href="{{ path('app_categorie_edit', {'id': categorie.id}) }}" class="btn btn-xs">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<a href="{{ path('app_categorie_new') }}" class="btn btn-lg pull-right">Create new</a>
+
+{% endblock %}

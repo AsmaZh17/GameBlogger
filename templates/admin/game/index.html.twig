@@ -1,0 +1,54 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Game index{% endblock %}
+
+{% block body %}
+<section class="youplay-banner banner-top youplay-banner-parallax small">
+    <div class="image" data-speed="0.4">
+        <img src="{{ asset('images/dark/banner-blog-bg.jpg') }}" alt="" class="jarallax-img">
+    </div>
+    <div class="info">
+        <div>
+            <div class="container">
+                <h1 class="h1">List Game</h1>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="container youplay-content">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Image</th>
+                <th>Prix</th>
+                <th>Solde</th>
+                <th>End</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for game in games %}
+            <tr>
+                <td>{{ game.id }}</td>
+                <td>{{ game.nom }}</td>
+                <td>{{ game.image }}</td>
+                <td>{{ game.prix }}</td>
+                <td>{{ game.solde ? game.solde : 'Non soldé' }}</td>
+                <td>{{ game.end ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('app_games_show', {'id': game.id}) }}" class="btn btn-xs">show</a>
+                    <a href="{{ path('app_games_edit', {'id': game.id}) }}" class="btn btn-xs">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<a href="{{ path('app_games_new') }}" class="btn btn-lg pull-right">Create new</a>
+{% endblock %}

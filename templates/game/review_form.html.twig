@@ -1,0 +1,21 @@
+{{ form_start(form, {'attr': {'class': 'review-form mb-0',  'id': 'review_form'}}) }} 
+    <div class="review-cont clearfix">
+        <div class="youplay-textarea">
+            {{ form_row(form.contenu, {'attr': {'rows': '5', 'placeholder': 'Your Review...'}}) }}
+        </div>
+        <div class="youplay-rating pull-right">
+        <input type="radio" id="review-rate-5" name="review-rate" value="5" {% if review.widthStar == 100 %} checked {% endif %}>
+        <label for="review-rate-5"><i class="fa fa-star"></i></label>
+        <input type="radio" id="review-rate-4" name="review-rate" value="4" {% if review.widthStar == 80 %} checked {% endif %}>
+        <label for="review-rate-4"><i class="fa fa-star"></i></label>
+        <input type="radio" id="review-rate-3" name="review-rate" value="3" {% if review.widthStar == 60 %} checked {% endif %}>
+        <label for="review-rate-3"><i class="fa fa-star"></i></label>
+        <input type="radio" id="review-rate-2" name="review-rate" value="2" {% if review.widthStar == 40 %} checked {% endif %}>
+        <label for="review-rate-2"><i class="fa fa-star"></i></label>
+        <input type="radio" id="review-rate-1" name="review-rate" value="1" {% if review.widthStar == 20 %} checked {% endif %}>
+        <label for="review-rate-1"><i class="fa fa-star"></i></label>
+    </div>
+    <div class="clearfix"></div>
+    </div>
+    <button class="btn btn-default pull-right">{{ button_label|default('Submit') }}</button>
+{{ form_end(form) }}

@@ -1,0 +1,53 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Blog{% endblock %}
+
+{% block body %}
+<section class="youplay-banner banner-top youplay-banner-parallax small">
+    <div class="image" data-speed="0.4">
+        <img src="{{ asset('images/dark/banner-blog-bg.jpg') }}" alt="" class="jarallax-img">
+    </div>
+    <div class="info">
+        <div>
+            <div class="container">
+                <h1 class="h1">Game</h1>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="container youplay-content">
+    <table class="table table-bordered table-hover">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ blog.id }}</td>
+            </tr>
+            <tr>
+                <th>Titre</th>
+                <td>{{ blog.titre }}</td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                <td>{{ blog.image }}</td>
+            </tr>
+            <tr>
+                <th>Contenu</th>
+                <td>{{ blog.contenu }}</td>
+            </tr>
+            <tr>
+                <th>CreateAt</th>
+                <td>{{ blog.createAt ? blog.createAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+    <a href="{{ path('app_blogs_index') }}" class="btn btn-lg pull-left">back to list</a>
+
+    <a href="{{ path('app_blogs_edit', {'id': blog.id}) }}" class="btn btn-lg pull-right">edit</a>
+
+    {{ include('admin/blog/_delete_form.html.twig') }} 
+
+{% endblock %}
+

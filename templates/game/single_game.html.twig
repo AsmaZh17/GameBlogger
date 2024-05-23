@@ -1,0 +1,219 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<section class="youplay-banner banner-top youplay-banner-parallax">
+                <div class="image" data-speed="0.4">
+                    <img src="{{ asset(game.image) }}" alt="" class="jarallax-img">
+                </div>
+                <div class="info">
+                    <div>
+                        <div class="container">
+                            <h1 class="h1">{{ game.nom }}</h1>
+                            <br>
+                            <a class="btn btn-lg" title="Add to Cart">
+                                {% if game.solde == NULL %}
+                                    ${{ game.prix }} 
+                                {% else %}
+                                    {% set pourcentage_reduction = game.solde %}
+                                    {% set reduction = game.prix * (pourcentage_reduction / 100) %}  
+                                    {% set nouveau_prix = game.prix - reduction |number_format(2) %}
+                                    ${{ nouveau_prix }}
+                                {% endif %}
+                            </a>
+                        </div>
+                    </div> 
+                </div>
+            </section>
+            <!-- /Images With Text -->
+            <div class="container youplay-store">
+                <div class="col-md-9">
+                    <!-- Post Info -->
+                    <article>
+                        <!-- Description -->
+                        <h2 class="mt-0">Description</h2>
+                        <div class="description">
+                            <p>{{ game.description|nl2br }}</p>
+                        </div>
+                        <!-- /Description -->
+                        <!-- Post Share -->
+                        <div class="btn-group social-list social-likes" data-counters="no">
+                            <span class="btn btn-default facebook" title="Share link on Facebook"></span>
+                            <span class="btn btn-default twitter" title="Share link on Twitter"></span>
+                            <span class="btn btn-default plusone" title="Share link on Google+"></span>
+                            <span class="btn btn-default pinterest" title="Share image on Pinterest" data-media=""></span>
+                            <span class="btn btn-default vkontakte" title="Share link on VK"></span>
+                        </div>
+                        <!-- /Post Share -->
+                    </article>
+                    <!-- /Post Info -->
+                    <!-- Information -->
+                    {% if game.minimumRequirements != NULL and game.recommendedRequirements != NULL %}
+                        <div class="requirements-block">
+                            <h2>System Requirements</h2>
+                            <div class="panel-group youplay-accordion" id="accordion" role="tablist" aria-multiselectable="true">
+                                {% if game.minimumRequirements != NULL %}
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" role="tab" id="headingOne">
+                                            <h4 class="panel-title">
+                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne"> Minimum <span class="icon-plus"></span>
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                                            <div class="panel-body">
+                                                <div>
+                                                    <strong>OS:</strong> {{game.minimumRequirements.os}} </div>
+                                                <div>
+                                                    <strong>Processor:</strong> {{game.minimumRequirements.Processor}} </div>
+                                                <div>
+                                                    <strong>Memory:</strong> {{game.minimumRequirements.Memory}} </div>
+                                                <div>
+                                                    <strong>Graphics:</strong> {{game.minimumRequirements.Graphics}} </div>
+                                                <div>
+                                                    <strong>DirectX:</strong> {{game.minimumRequirements.DirectX}} </div>
+                                                <div>
+                                                    <strong>Network:</strong> {{game.minimumRequirements.Network}} </div>
+                                                <div>
+                                                    <strong>Hard Drive:</strong> {{game.minimumRequirements.hardDrive}} </div>
+                                                <div>
+                                                    <strong>Sound Card:</strong> {{game.minimumRequirements.soundCard}} </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                {% if game.recommendedRequirements != NULL %}
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" role="tab" id="headingTwo">
+                                            <h4 class="panel-title">
+                                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"> Recommended <span class="icon-minus"></span>
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
+                                            <div class="panel-body">
+                                                <div>
+                                                    <strong>OS:</strong> {{game.recommendedRequirements.os}} </div>
+                                                <div>
+                                                    <strong>Processor:</strong> {{game.recommendedRequirements.Processor}} </div>
+                                                <div>
+                                                    <strong>Memory:</strong> {{game.recommendedRequirements.Memory}} </div>
+                                                <div>
+                                                    <strong>Graphics:</strong> {{game.recommendedRequirements.Graphics}} </div>
+                                                <div>
+                                                    <strong>DirectX:</strong> {{game.recommendedRequirements.DirectX}} </div>
+                                                <div>
+                                                    <strong>Network:</strong> {{game.recommendedRequirements.Network}} </div>
+                                                <div>
+                                                    <strong>Hard Drive:</strong> {{game.recommendedRequirements.hardDrive}} </div>
+                                                <div>
+                                                    <strong>Sound Card:</strong> {{game.recommendedRequirements.soundCard}} </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% set gameNotInOrderItems = true %}
+
+                    {% for item in orderItems %}
+                        {% if item.product.id == game.id %}
+                            {% set gameNotInOrderItems = false %}
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if gameNotInOrderItems %}
+                        <form action="{{ path('app_cart_add', {gameId: game.id}) }}" method="post">
+                            <button type="submit" class="btn btn-lg pull-right">{{ button_label|default('Add to cart') }}</button>
+                        </form>
+                    {% endif %}
+                    <br>
+                    <!-- /Information -->
+                    <!-- Reviews -->
+                    <div class="reviews-block mb-0">
+                        <h2>Reviews <small>({{ count }})</small></h2>
+                        <!-- Reviews List -->
+                        <ul class="reviews-list">
+                            {% for review in game.reviews %}
+                                <!-- Scott Sutton review -->
+                                    <li>
+                                        <article>
+                                            <div class="review-avatar pull-left">
+                                                <img src="{{ asset('images/dark/avatar.png') }}" alt="">
+                                            </div>
+                                            <div class="review-cont clearfix">
+                                                <div class="rating pull-right">
+                                                    <div class="rating-front" style="width: {{ review.widthStar }}%;">
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                    </div>
+                                                    <div class="rating-back">
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                    </div>
+                                                </div>
+                                                {% if app.user %}
+                                                    {% if app.user.id == review.author.id %}
+                                                        <a class="pull-right">
+                                                            <form method="post" action="{{ path('app_single_game_delete', {'gameid': game.id, 'id': review.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                                                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ review.id) }}">
+                                                                <button class="btn btn-xs pull-right"><i class="fa fa-trash"></i>  Delete</button>
+                                                            </form>
+                                                            <a href="{{ path('app_single_game_edit', {'id': game.id, 'edit_review_id': review.id}) }}#review_form" class="btn btn-xs pull-right"><i class="fa fa-edit"></i> Edit </a>  
+                                                        </a>
+                                                    {% endif %} 
+                                                {% endif %}
+                                                <a class="review-author h4" href="#"> {{ review.author.nom }} {{review.author.prenom }} </a>
+                                                <div class="date"><i class="fa fa-calendar"></i> {{ review.createAt|date('F j, Y') }} </div>
+                                                <div class="review-text"> {{ review.contenu|nl2br }} </div>
+                                            </div>
+                                        </article>
+                                    </li>
+                                <!-- /Scott Sutton review -->
+                                {% endfor %}
+                            </ul>
+                            <!-- /Reviews List -->
+                        <!-- Review Form -->
+                        {% if existingReview == NULL %}
+                        <h2>Add a Review</h2>
+                        {{ include('game/review_form.html.twig') }}
+                        {% endif %}
+                        <!-- /Review Form -->
+                    </div>
+                    <!-- /Reviews -->
+                </div>
+                <!-- Right Side -->
+                <div class="col-md-3">
+                    <!-- Side Popular News -->
+                    <div class="side-block">
+                        <h4 class="block-title">Popular Games</h4>
+                        <div class="block-content p-0">
+                            {% for game in lastgame %}
+                                <!-- Single News Block -->
+                                <div class="row youplay-side-news">
+                                    <div class="col-xs-3 col-md-4">
+                                        <a href="{{ path('app_single_game', {'id': game.id}) }}" class="angled-img">
+                                            <div class="img">
+                                                <img src="{{ asset(game.image) }}" alt="">
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="col-xs-9 col-md-8">
+                                        <h4 class="ellipsis"><a href="{{ path('app_single_game', {'id': game.id}) }}" >{{game.nom}}</a></h4>
+                                        <span class="price">${{game.prix}}</span>
+                                    </div>
+                                </div>
+                                <!-- /Single News Block -->
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <!-- /Side Popular News -->
+                </div>
+                <!-- /Right Side -->
+            </div>
+{% endblock %}

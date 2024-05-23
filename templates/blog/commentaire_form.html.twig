@@ -1,0 +1,8 @@
+{{ form_start(form, {'attr': {'class': 'comment-form' , 'id': 'comment_form'}}) }}
+    <div class="rcomment-cont clearfix">
+        <div class="youplay-textarea">
+            {{ form_row(form.contenu, {'attr': {'rows': '5', 'placeholder': 'Your Comment...'}}) }}
+        </div>
+    </div>
+    <button class="btn btn-default pull-right">{{ button_label|default('Submit') }}</button>
+{{ form_end(form) }}

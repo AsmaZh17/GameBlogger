@@ -1,0 +1,55 @@
+{{ form_start(form) }}
+<div class="container youplay-content">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6">
+                <p>Nom:</p>
+                <div class="youplay-input">
+                    {{ form_widget(form.nom, {'attr': {'class': 'form-control', 'placeholder': 'Nom'}}) }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <p>Image:</p>
+                <div class="youplay-input">
+                    {{ form_widget(form.image, {'attr': {'class': 'form-control', 'placeholder': 'Image'}}) }}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <p>Prix:</p>
+                <div class="youplay-input">
+                    {{ form_widget(form.prix, {'attr': {'class': 'form-control', 'placeholder': 'prix'}}) }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <p>Solde:</p>
+                <div class="youplay-input">
+                    {{ form_widget(form.solde, {'attr': {'class': 'form-control', 'placeholder': 'Solde'}}) }}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <p>Description:</p>
+            <div class="youplay-textarea">
+                {{ form_widget(form.description, {'attr': {'rows': '5', 'class': 'form-control auto-size', 'placeholder': 'Description...'}}) }}
+            </div>
+        </div>      
+        <div class="row">
+            <div class="col-md-6">
+                <p>Minimum requirements:</p>
+                <div class="youplay-select">
+                    {{ form_widget(form.minimumRequirements, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <p>Recommended requirements:</p>
+                <div class="youplay-select">
+                    {{ form_widget(form.recommendedRequirements, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+        </div>    
+    </div>
+</div>
+    <button class="btn btn-default btn-lg pull-right">{{ button_label|default('Submit') }}</button>
+{{ form_end(form) }}

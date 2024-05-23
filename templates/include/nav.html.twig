@@ -1,0 +1,92 @@
+
+        <!-- Navbar -->
+        <nav class="navbar-youplay navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="off-canvas" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{{ path('app_') }}">
+                        <img src="{{ asset('images/logo-light.png') }}" alt="">
+                    </a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li class=" dropdown dropdown-hover">
+                            <a href="{{ path('app_') }}" class="dropdown-toggle" role="button"> Home
+                                <span class="label">All</span>
+                            </a>
+                        </li>
+                        <li class=" dropdown dropdown-hover">
+                            <a href="{{ path('app_game') }}" class="dropdown-toggle" role="button"> Store
+                                <span class="label">games</span>
+                            </a>
+                        </li>
+                        <li class=" dropdown dropdown-hover">
+                            <a href="{{ path('app_blog') }}" class="dropdown-toggle" role="button"> Blog
+                                <span class="label">news</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        {% if app.user %}
+                            <li class=" dropdown dropdown-hover">
+                            <a href="{{ path('app_profile') }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> {{ app.user.nom }} {{ app.user.prenom }}
+                                <span class="caret"></span>
+                                <span class="label">user</span>
+                            </a>
+                            <div class="dropdown-menu"> 
+                                <ul role="menu">
+                                    <li>
+                                        <a href="{{ path('app_profile') }}" > Profile </a>
+                                    <li>
+                                        <a href="{{ path('app_setting') }}" > Settings </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        {% endif %}
+                        <li>
+                            <a class="search-toggle" href="{{ path('app_search') }}" >
+                                <i class="fa fa-search"></i>
+                            </a>
+                        </li>
+                        {% if app.user %}
+                        <li class="dropdown dropdown-hover dropdown-cart">
+                                <a href="{{ path('app_cart') }}" role="button" >
+                                    <i class="fa fa-shopping-cart"></i>
+                                </a>
+                            </li>
+                        <li class="dropdown dropdown-hover dropdown-user">
+                            <a href="{{ path('app_profile') }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">
+                                <i class="fa fa-user"></i>
+                                <span class="caret"></span>
+                            </a>
+                            <div class="dropdown-menu">
+                                <form class="navbar-login-form" method="post">
+                                    {% if app.user %} 
+                                        <div class="mb-3">
+                                            You are logged in as {{ app.user.userIdentifier }}, 
+                                        </div>
+                                    {% endif %}
+                                    <div style="text-align: right;">
+                                        <a class="btn btn-sm ml-0 mr-0 " style="text-align: right;" href="{{ path('app_logout') }}">Logout</a><br>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+                        {% else %}
+                            <li class="dropdown dropdown-hover dropdown-user">
+                                <a href="{{ path('app_login') }}" role="button" >
+                                    <i class="fa fa-user"></i>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- /Navbar -->

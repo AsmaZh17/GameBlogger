@@ -18,6 +18,11 @@ services:
       - database_data:/var/lib/postgresql/data:rw
       # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
       # - ./docker/db/data:/var/lib/postgresql/data:rw
+  mailer:
+    image: some-mailer-image
+    environment:
+      # Utilisez la variable d'environnement MAILER_DSN définie dans .env
+      MAILER_DSN: ${MAILER_DSN}
 ###< doctrine/doctrine-bundle ###
 
 volumes:

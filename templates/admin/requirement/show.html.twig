@@ -1,0 +1,67 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Requirement{% endblock %}
+
+{% block body %}
+<section class="youplay-banner banner-top youplay-banner-parallax small">
+    <div class="image" data-speed="0.4">
+        <img src="{{ asset('images/dark/banner-blog-bg.jpg') }}" alt="" class="jarallax-img">
+    </div>
+    <div class="info">
+        <div>
+            <div class="container">
+                <h1 class="h1">Requirement</h1>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="container youplay-content">
+    <table class="table table-bordered table-hover">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ requirement.id }}</td>
+            </tr>
+            <tr>
+                <th>Os</th>
+                <td>{{ requirement.os }}</td>
+            </tr>
+            <tr>
+                <th>Processor</th>
+                <td>{{ requirement.processor }}</td>
+            </tr>
+            <tr>
+                <th>Memory</th>
+                <td>{{ requirement.memory }}</td>
+            </tr>
+            <tr>
+                <th>Graphics</th>
+                <td>{{ requirement.graphics }}</td>
+            </tr>
+            <tr>
+                <th>DirectX</th>
+                <td>{{ requirement.directX }}</td>
+            </tr>
+            <tr>
+                <th>Network</th>
+                <td>{{ requirement.network }}</td>
+            </tr>
+            <tr>
+                <th>HardDrive</th>
+                <td>{{ requirement.hardDrive }}</td>
+            </tr>
+            <tr>
+                <th>SoundCard</th>
+                <td>{{ requirement.soundCard }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+    <a href="{{ path('app_requirement_index') }}" class="btn btn-lg pull-left">back to list</a>
+
+    <a href="{{ path('app_requirement_edit', {'id': requirement.id}) }}" class="btn btn-lg pull-right">edit</a>
+
+    {{ include('admin/requirement/_delete_form.html.twig') }}
+
+{% endblock %}

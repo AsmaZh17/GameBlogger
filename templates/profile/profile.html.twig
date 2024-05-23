@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+            <section class="youplay-banner banner-top youplay-banner-parallax small">
+                <div class="image" data-speed="0.4">
+                    <img src="{{ asset('images/dark/game-diablo-iii-1400x656.jpg') }}" alt="" class="jarallax-img">
+                </div>
+                <div class="youplay-user-navigation">
+                    <div class="container">
+                        <ul>
+                            <li class="active"><a href="{{ path('app_profile') }}">Profile</a></li>
+                            <li><a href="{{ path('app_setting' ) }}">Settings</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="info">
+                    <div>
+                        <div class="container youplay-user">
+                            <a href="{{ asset('images/dark/user-photo.jpg') }}" class="angled-img image-popup">
+                                <div class="img">
+                                    <img src="{{ asset('images/dark/avatar.png') }}" alt="">
+                                </div>
+                                <i class="fa fa-search-plus icon"></i>
+                            </a>
+                            <div class="user-data">
+                                <h2>{{ app.user.nom }} {{ app.user.prenom }}</h2>
+                                <div class="location"> {{ app.user.nom }} {{ app.user.prenom }}</div>
+                                <div class="activity">
+                                    <div>
+                                        <div class="num">{{favorite}}</div>
+                                        <div class="title">Favorites</div>
+                                    </div>
+                                    <div>
+                                        <div class="num">{{game}}</div>
+                                        <div class="title">Games</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /Banner -->
+            <div class="container youplay-content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3 class="mt-40 mb-20">Personal Information</h3>
+                        <table class="table table-bordered">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <p>Ordered Games</p>
+                                    </td>
+                                    <td>
+                                        {% if app.user.orders is not empty %}
+                                            {% for order in app.user.orders %}
+                                                {% if order.orderItems is not empty %}
+                                                    {% for orderItem in order.orderItems %}
+                                                        <a href="{{ path('app_single_game', {'id': orderItem.product.id}) }}">{{ orderItem.product.nom }}</a>{% if not loop.last %}, {% endif %}
+                                                    {% endfor %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% else %}
+                                            No Ordered games.
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p>Favorite blogs</p>
+                                    </td> 
+                                    <td>
+                                        {% for blog in app.user.favoriteBlog %}
+                                            <a href="{{ path('app_single_blog', {'id': blog.id}) }}">{{ blog.titre }}</a>{% if not loop.last %}, {% endif %}
+                                        {% else %}
+                                            No favorite blogs.
+                                        {% endfor %}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+{% endblock %}

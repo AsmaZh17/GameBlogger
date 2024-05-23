@@ -1,0 +1,116 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CheckoutController!{% endblock %}
+
+{% block body %}
+<section class="youplay-banner banner-top youplay-banner-parallax xsmall">
+                <div class="image" data-speed="0.4">
+                    <img src="{{ asset('images/dark/banner-blog-bg.jpg') }}" alt="" class="jarallax-img">
+                </div>
+                <div class="info">
+                    <div>
+                        <div class="container">
+                            <h1 class="h1">Checkout</h1>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /Banner -->
+            <div class="container youplay-content">
+                <div class="col-md-12">
+                    {{ form_start(form) }}
+                    <!-- Billing Information -->
+                    <h2 class="mt-0">Billing Details</h2>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p>First Name:</p>
+                            <div class="youplay-input">
+                                <input type="text" name="billing_firstname" placeholder="First Name" value="{{ user.nom }}">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <p>Last Name:</p>
+                            <div class="youplay-input">
+                                <input type="text" name="billing_lastname" placeholder="Last Name" value="{{ user.prenom }}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p>Email:</p> 
+                            <div class="youplay-input">
+                                <input type="text" name="billing_email" placeholder="Email" value="{{ user.email }}">
+                            </div>
+                        </div>
+                    </div>
+                    <p>Additional Info:</p>
+                    <div class="youplay-textarea">
+                        {{ form_widget(form) }}
+                    </div>
+                    <!-- /Billing Information -->
+                    <!-- Cart -->
+                    <h2>Your Games in Cart</h2>
+                    {% set total = 0 %}
+                    {% for order in orders %}
+                    <!-- Single Product Block -->
+                        <div class="item angled-bg">
+                            <div class="row">
+                                <div class="col-xs-6 col-md-9">
+                                    <h4 class="ml-20">{{ order.product.nom }}</h4>
+                                </div>
+                                <div class="col-xs-6 col-md-3 align-right">
+                                    <div class="price">
+                                        {% if order.product.solde == NULL %}
+                                               ${{ order.product.prix }} 
+                                        {% else %}
+                                            {% if order.product.solde == 100 %}
+                                                FREE!
+                                            {% else %}
+                                                {% set pourcentage_reduction = order.product.solde %}
+                                                {% set reduction = order.product.prix * (pourcentage_reduction / 100) %}  
+                                                {% set nouveau_prix = order.product.prix - reduction %}
+                                                ${{ nouveau_prix|number_format(2) }}
+                                            {% endif %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Single Product Block -->
+                        {% if order.product.solde is null %}
+                            {% set prix = order.product.prix %}
+                        {% else %}
+                            {% set pourcentage_reduction = order.product.solde %}
+                            {% set reduction = order.product.prix * (pourcentage_reduction / 100) %}  
+                            {% set prix = order.product.prix - reduction %}
+                        {% endif %}
+                        {% set total = total + prix %}
+                        {% endfor %}
+                    <div class="align-right h3 mr-20 mb-20"> Total: <strong>${{ total|number_format(2) }}</strong>
+                    </div>
+                    <!-- Cart -->
+                    <!-- Payment Type -->
+                    <h2>Payment Type</h2>
+                    <div class="youplay-radio">
+                        <input type="radio" name="payment_type" value="bank" id="radio1">
+                        <label for="radio1">Direct Bank Transfer</label>
+                    </div>
+                    <div class="youplay-radio">
+                        <input type="radio" name="payment_type" value="cheque" id="radio2">
+                        <label for="radio2">Cheque Payment</label>
+                    </div>
+                    <div class="youplay-radio">
+                        <input type="radio" name="payment_type" value="paypal" id="radio3" checked>
+                        <label for="radio3">PayPal</label>
+                    </div>
+                    <!-- /Payment Type -->
+                    <input type="hidden" name="prix_total" value="{{ total|number_format(2) }}">
+                    <!-- Order Button -->
+                    <div class="align-right">
+                        <button class="btn btn-lg">{{ button_label|default('Place Order') }}</button>
+                    </div>
+                    <!-- /Order Button -->
+                    {{ form_end(form) }}
+                </div>
+            </div>
+{% endblock %}

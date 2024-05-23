@@ -1,0 +1,24 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}New Game{% endblock %}
+
+{% block body %}
+<section class="youplay-banner banner-top youplay-banner-parallax xsmall">
+                <div class="image" data-speed="0.4">
+                    <img src="{{ asset('images/dark/banner-blog-bg.jpg')}} " alt="" class="jarallax-img">
+                </div>
+                <div class="info">
+                    <div>
+                        <div class="container"> 
+                            <h1 class="h1">ADD GAME</h1>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /Banner -->
+
+
+    {{ include('admin/game/_form.html.twig') }}
+
+    <a href="{{ path('app_games_index') }}" class="btn btn-lg pull-left">back to list</a>
+{% endblock %}

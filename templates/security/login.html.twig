@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+{% block nav %}{% endblock %}
+{% block body %}
+<section class="youplay-banner banner-top youplay-banner-parallax full">
+                <div class="image" data-speed="0.4">
+                    <img src="{{ asset('images/dark/banner-bg.jpg') }}" alt="" class="jarallax-img">
+                </div>
+                <div class="info">
+                    <div>
+                        <div class="container">
+                            <div class="youplay-login">
+                                <div class="youplay-form text-center">
+                                    <h1>Login</h1>
+                                    <div class="btn-group social-list dib">
+                                        <a class="btn btn-default" title="Share on Facebook" href="#"><i class="fab fa-facebook"></i></a>
+                                        <a class="btn btn-default" href="#" title="Share on Twitter"><i class="fab fa-twitter"></i></a>
+                                        <a class="btn btn-default" href="#" title="Share on Google Plus"><i class="fab fa-google-plus"></i></a>
+                                    </div>
+                                    <form method="post">
+                                        {% if error %}
+                                            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                                        {% endif %}
+
+                                        {% if app.user %} 
+                                            <div class="mb-3">
+                                                You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+                                            </div>
+                                        {% endif %}
+                                        <div class="youplay-input">
+                                            <input type="email" value="{{ last_username }}" name="email" placeholder="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                                        </div>
+                                        <div class="youplay-input">
+                                            <input type="password" name="password" placeholder="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                                        </div>
+                                        <input type="hidden" name="_csrf_token"
+                                            value="{{ csrf_token('authenticate') }}"
+                                        >
+                                        <div class="youplay-checkbox text-left">
+                                            <input type="checkbox" name="_remember_me" id="_remember_me">
+                                            <label for="_remember_me">Remember me</label>
+                                        </div>
+
+                                        <button class="btn btn-default db" type="submit">Login</button>
+                                        <p>
+                                            <a class="no-fade" href="#">Lost password?</a> | <a href="/register" class="no-fade" data-toggle="modal" >Register</a>
+                                        </p>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /Banner -->
+{% endblock %}
+{% block footer %}{% endblock %}

@@ -2,16 +2,56 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        <title>{% block title %}Youplay{% endblock %}</title>
+        <link rel="icon" type="image/png" href="{{ asset('images/dark/icon.png') }}">
+        <!--href="{{asset('vendor/fonts/fontawesome.css') }}"-->
         {% block stylesheets %}
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
+            <link rel="stylesheet" href="{{ asset('vendor/bootstrap/dist/css/bootstrap.min.css') }}" />
+            <link rel="stylesheet" href="{{ asset('vendor/flickity/dist/flickity.min.css') }}" />
+            <link rel="stylesheet" href="{{ asset('vendor/magnific-popup/dist/magnific-popup.css') }}" />
+            <link rel="stylesheet" href="{{ asset('vendor/slider-revolution/css/settings.css') }}">
+            <link rel="stylesheet" href="{{ asset('vendor/slider-revolution/css/layers.css') }}">
+            <link rel="stylesheet" href="{{ asset('vendor/slider-revolution/css/navigation.css') }}">
+            <link rel="stylesheet" href="{{ asset('vendor/bootstrap-sweetalert/dist/sweetalert.css') }}" />
+            <link rel="stylesheet" href="{{ asset('vendor/social-likes/dist/social-likes_flat.css') }}" />
+            <link rel="stylesheet" href="{{ asset('css/youplay.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
         {% endblock %}
-
         {% block javascripts %}
+            <script defer src="{{ asset('vendor/fontawesome-free/js/all.js') }}"></script>
+            <script defer src="{{ asset('vendor/fontawesome-free/js/v4-shims.js') }}"></script>
+            <script src="{{ asset('vendor/jquery/dist/jquery.min.js') }}"></script>
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </head>
     <body>
+        {% block nav %}
+                {% include "include/nav.html.twig" %}
+        {% endblock %}
+        <div class="content-wrap">
         {% block body %}{% endblock %}
+        {% block footer %}
+		    {% include "include/footer.html.twig" %}
+        {% endblock %}
+        </div>
+        <script src="{{ asset('vendor/object-fit-images/dist/ofi.min.js') }}"></script>
+        <script src="{{ asset('vendor/jquery/dist/jquery.min.js') }}"></script>
+        <script src="{{ asset('vendor/HexagonProgress/jquery.hexagonprogress.min.js') }}"></script>
+        <script src="{{ asset('vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('vendor/jarallax/dist/jarallax.min.js') }}"></script>
+        <script src="{{ asset('vendor/flickity/dist/flickity.pkgd.min.js') }}"></script>
+        <script src="{{ asset('vendor/jquery-countdown/dist/jquery.countdown.min.js') }}"></script>
+        <script src="{{ asset('vendor/moment/min/moment.min.js') }}"></script>
+        <script src="{{ asset('vendor/moment-timezone/builds/moment-timezone-with-data.min.js') }}"></script>
+        <script src="{{ asset('vendor/magnific-popup/dist/jquery.magnific-popup.min.js') }}"></script>
+        <script src="{{ asset('vendor/slider-revolution/js/jquery.themepunch.tools.min.js') }}"></script>
+        <script src="{{ asset('vendor/slider-revolution/js/jquery.themepunch.revolution.min.js') }}"></script>
+        <script src="{{ asset('vendor/imagesloaded/imagesloaded.pkgd.min.js') }}"></script>
+        <script src="{{ asset('vendor/isotope-layout/dist/isotope.pkgd.min.js') }}"></script>
+        <script src="{{ asset('vendor/bootstrap-validator/dist/validator.min.js') }}"></script>
+        <script src="{{ asset('vendor/bootstrap-sweetalert/dist/sweetalert.min.js') }}"></script>
+        <script src="{{ asset('vendor/social-likes/dist/social-likes.min.js') }}"></script>
+        <script src="{{ asset('js/youplay-init.js') }}"></script>
     </body>
 </html>

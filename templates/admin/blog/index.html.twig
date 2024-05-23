@@ -1,0 +1,51 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Blog index{% endblock %}
+
+{% block body %}
+<section class="youplay-banner banner-top youplay-banner-parallax small">
+    <div class="image" data-speed="0.4">
+        <img src="{{ asset('images/dark/banner-blog-bg.jpg') }}" alt="" class="jarallax-img">
+    </div>
+    <div class="info">
+        <div>
+            <div class="container">
+                <h1 class="h1">List Blog</h1>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="container youplay-content">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titre</th>
+                <th>Image</th>
+                <th>CreateAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for blog in blogs %}
+            <tr>
+                <td>{{ blog.id }}</td>
+                <td>{{ blog.titre }}</td>
+                <td>{{ blog.image }}</td>
+                <td>{{ blog.createAt ? blog.createAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_blogs_show', {'id': blog.id}) }}" class="btn btn-xs">show</a>
+                    <a href="{{ path('app_blogs_edit', {'id': blog.id}) }}" class="btn btn-xs">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<a href="{{ path('app_blogs_new') }}" class="btn btn-lg pull-right">Create new</a>
+{% endblock %}
+ 

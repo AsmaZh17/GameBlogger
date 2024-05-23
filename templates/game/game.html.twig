@@ -1,0 +1,115 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+            <section class="youplay-banner banner-top youplay-banner-parallax small">
+                <div class="image" data-speed="0.4">
+                    <img src="{{ asset('images/dark/banner-blog-bg.jpg') }}" alt="" class="jarallax-img">
+                </div>
+                <div class="info">
+                    <div>
+                        <div class="container">
+                            <h1 class="h1">Game</h1>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /Banner -->
+            <div class="container youplay-news">
+                <!-- Games List -->
+                <div class="col-md-12 isotope">
+                    <!-- Sort Categories -->
+                    <ul class="pagination isotope-options">
+                        <li  {% if app.request.attributes.get('_route') == 'app_game' %}class="active"{% endif %}><a href="{{ path('app_game') }}"><span>All</span></a></li>
+                        <li  {% if app.request.attributes.get('_route') == 'app_game_free' %}class="active"{% endif %}><a href="{{ path('app_game_free') }}"><span>Free</span></a></li>
+                        <li {% if app.request.attributes.get('_route') == 'app_game_solde' %}class="active"{% endif %}><a href="{{ path('app_game_solde') }}"><span>Solde</span></a></li>
+                        <li  {% if app.request.attributes.get('_route') == 'app_game_popular' %}class="active"{% endif %}><a href="{{ path('app_game_popular') }}"><span>Popular</span></a></li>
+                    </ul>
+                    <!-- /Sort Categories -->
+                    <div class="isotope-list row vertical-gutter">
+                        {% for game in games %} 
+                            <!-- Single Product Block -->
+                            <div class="item col-lg-4 col-md-6 col-xs-12">
+                                <a href="{{ path('app_single_game', {'id': game.id}) }}" class="angled-img">
+                                    <div class="img img-offset">
+                                        <img src="{{ asset(game.image) }}" alt="">
+                                        {% if game.solde != NULL %}
+                                            <div class="badge show bg-default">-{{ game.solde }}%</div>
+                                            {% if game.solde == 100 %}
+                                                <div class="badge show bg-success">-100%</div>
+                                            {% endif %}
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <div class="bottom-info">
+                                        <h4>{{ game.nom }}</h4>
+                                        {% if game.end == -1 %}
+                                        <div class="date">
+                                            <i class="fa fa-calendar"></i> never
+                                        </div> 
+                                        {% else %}
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                <div class="rating">
+                                                    <div class="rating-front" style="width: {{ game.widthStar }}%;">
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                    </div>
+                                                    <div class="rating-back">
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% if game.solde != 100 %}
+                                                <div class="col-xs-6">
+                                                    <div class="price"> 
+                                                        {% if game.solde == NULL %}
+                                                            ${{ game.prix }} 
+                                                        {% else %}
+                                                            {% set pourcentage_reduction = game.solde %}
+                                                            {% set reduction = game.prix * (pourcentage_reduction / 100) %}  
+                                                            {% set nouveau_prix = game.prix - reduction |number_format(2) %}
+                                                            ${{ nouveau_prix }} <sup><del>${{ game.prix }}</del></sup>
+                                                        {% endif %}
+                                                        
+                                                    </div>
+                                                </div>
+                                            {% else %}
+                                                <div class="price">
+                                                    <span class="text-success">FREE!</span> <sup><del>${{ game.prix }}</del></sup>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </a> 
+                                    {% set gameNotInOrderItems = true %}
+
+                                    {% for item in orderItems %}
+                                        {% if item.product.id == game.id %}
+                                            {% set gameNotInOrderItems = false %}
+                                        {% endif %}
+                                    {% endfor %}
+
+                                    {% if gameNotInOrderItems %}
+                                    <form action="{{ path('app_cart_add', {gameId: game.id}) }}" method="post">
+                                        <button type="submit" class="btn btn-sm pull-right">{{ button_label|default('Add to cart') }}</button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                            <!-- /Single Product Block -->
+                        {% endfor %}
+                        {% if app.request.attributes.get('_route') == 'app_game' %}
+                            {% do games.setPageRange(2) %}
+                            {{ knp_pagination_render(games , 'include/pagination.html.twig') }}
+                        {% endif %}
+                    </div>
+                </div>
+                <!-- /Games List -->
+            </div>
+{% endblock %}

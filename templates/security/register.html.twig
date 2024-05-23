@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block nav %}{% endblock %}
+{% block body %}
+<section class="youplay-banner banner-top youplay-banner-parallax full">
+                <div class="image" data-speed="0.4">
+                    <img src="images/dark/banner-bg.jpg" alt="" class="jarallax-img">
+                </div>
+                <div class="info">
+                    <div>
+                        <div class="container">
+                            <div class="youplay-login">
+                                <div class="youplay-form text-center">
+                                    <h1>Register</h1>
+                                    <div class="btn-group social-list dib">
+                                        <a class="btn btn-default" title="Share on Facebook" href="#"><i class="fab fa-facebook"></i></a>
+                                        <a class="btn btn-default" href="#" title="Share on Twitter"><i class="fab fa-twitter"></i></a>
+                                        <a class="btn btn-default" href="#" title="Share on Google Plus"><i class="fab fa-google-plus"></i></a>
+                                    </div>
+                                    {% for flash_error in app.flashes('verify_email_error') %}
+                                        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+                                    {% endfor %}
+
+                                    {{ form_errors(registrationForm) }}
+
+                                    {{ form_start(registrationForm) }} 
+                                        <div class="youplay-input">
+                                            {{ form_row(registrationForm.nom) }}
+                                        </div>
+                                        <div class="youplay-input">
+                                            {{ form_row(registrationForm.prenom) }}   
+                                        </div>
+                                        <div class="youplay-input">
+                                            {{ form_row(registrationForm.email) }}
+                                        </div>
+                                        <div class="youplay-input">
+                                            {{ form_row(registrationForm.plainPassword) }}   
+                                        </div>
+                                        <div class="youplay-checkbox text-left">
+                                            <input type="checkbox" name="agreeTerms" id="agreeTerms">
+                                            <label for="agreeTerms">Agree Terms</label>
+                                        </div>
+                                        
+
+                                        <button type="submit" class="btn">Register</button>
+                                    {{ form_end(registrationForm) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /Banner -->
+{% endblock %}
+{% block footer %}{% endblock %}

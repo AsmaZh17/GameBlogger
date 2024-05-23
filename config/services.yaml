@@ -13,12 +13,18 @@ services:
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
+    Symfony\Component\Security\Csrf\CsrfTokenManagerInterface: '@security.csrf.token_manager'
+    App\Security\EmailVerifier: 
+        arguments: ['@Symfony\Bridge\Twig\Mime\TemplatedEmail', '@Symfony\Component\Mailer\MailerInterface', '@Symfony\Component\Routing\Generator\UrlGeneratorInterface']
     App\:
         resource: '../src/'
         exclude:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
-
+    App\Twig\AppExtension:
+        tags: [twig.extension]
+    App\Command\CreateAdminUserCommand:
+        tags: ['console.command']
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
